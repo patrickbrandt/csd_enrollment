@@ -82,16 +82,18 @@ The enrollment CSV and capacity PDF use slightly different naming:
 3. **Create data processing script**
    - Parse enrollment CSV
    - Map school names to capacity values
-   - Add school coordinates (need to research/add):
-     - Clairemont Elementary: ~33.7745, -84.2961
-     - Glennwood Elementary: ~33.7698, -84.2892
-     - Oakhurst Elementary: ~33.7654, -84.2934
-     - Westchester Elementary: ~33.7796, -84.3142
-     - Winnona Park Elementary: ~33.7712, -84.3052
-     - Fifth Avenue Upper Elementary: ~33.7748, -84.2956
-     - Talley Street Upper Elementary: ~33.7771, -84.3001
-     - Beacon Hill (Renfroe Middle): ~33.7743, -84.2935
-     - Decatur High School: ~33.7709, -84.2980
+   - School coordinates and addresses:
+     | School | Address | Coordinates |
+     |--------|---------|-------------|
+     | Clairemont Elementary | 155 Erie Ave, Decatur, GA 30030 | 33.7752, -84.2961 |
+     | Glennwood Elementary | 440 E Ponce de Leon Ave, Decatur, GA 30030 | 33.7738, -84.2878 |
+     | Oakhurst Elementary | 175 Mead Rd, Decatur, GA 30030 | 33.7614, -84.2934 |
+     | Westchester Elementary | 758 Scott Blvd, Decatur, GA 30030 | 33.7831, -84.3067 |
+     | Winnona Park Elementary | 510 Avery St, Decatur, GA 30030 | 33.7682, -84.3052 |
+     | Fifth Avenue Upper Elementary | 101 5th Ave, Decatur, GA 30030 | 33.7748, -84.2956 |
+     | Talley Street Upper Elementary | 2617 Talley St, Decatur, GA 30030 | 33.7621, -84.3101 |
+     | Beacon Hill (Renfroe Middle) | 220 W College Ave, Decatur, GA 30030 | 33.7678, -84.2993 |
+     | Decatur High School | 310 N McDonough St, Decatur, GA 30030 | 33.7707, -84.2978 |
 
 4. **Create data module (data.js)**
    - Load schools.json
@@ -125,10 +127,16 @@ The enrollment CSV and capacity PDF use slightly different naming:
 ### Phase 5: Map View Component
 
 7. **Set up Google Maps**
+   - Create Google Maps API key in Google Cloud Console
+     - Enable Maps JavaScript API
+     - Restrict key to GitHub Pages domain (patrickbrandt.github.io)
    - Initialize map centered on Decatur, GA (~33.7748, -84.2963)
    - Set appropriate default zoom (~14) to show all schools
    - Add City of Decatur boundary polygon
-     - Source: Need to obtain GeoJSON for city boundaries
+     - Source options (in order of preference):
+       1. City of Decatur Open Data Portal: https://data-decaturga.opendata.arcgis.com/datasets/city-limits
+       2. ARC Open Data Hub: https://arc-garc.opendata.arcgis.com/datasets/decaturga::decatur-city-limits-2
+       3. U.S. Census TIGER/Line (Georgia Places): https://catalog.data.gov/dataset/tiger-line-shapefile-2022-state-georgia-ga-place
      - Style: semi-transparent fill with border
 
 8. **Implement school markers**
@@ -171,10 +179,9 @@ The enrollment CSV and capacity PDF use slightly different naming:
 
 12. **Prepare for GitHub Pages**
     - Ensure all paths are relative
-    - Add Google Maps API key (consider restrictions)
+    - Create and configure Google Maps API key (restricted to patrickbrandt.github.io)
     - Test locally with a simple HTTP server
-    - Create/update GitHub repository
-    - Enable GitHub Pages in repository settings
+    - Enable GitHub Pages in repository settings (already created)
 
 ---
 
@@ -191,7 +198,7 @@ The enrollment CSV and capacity PDF use slightly different naming:
       "type": "elementary_lower",
       "cluster": "north",
       "capacity": 365,
-      "lat": 33.7745,
+      "lat": 33.7752,
       "lng": -84.2961,
       "enrollment": {
         "FY14": 379,
@@ -216,14 +223,14 @@ The enrollment CSV and capacity PDF use slightly different naming:
 ## Key Considerations
 
 ### Google Maps API
-- Requires API key with Maps JavaScript API enabled
-- May need to restrict key to GitHub Pages domain
-- Consider usage limits/billing
+- Create new API key in Google Cloud Console
+- Enable Maps JavaScript API
+- Restrict key to GitHub Pages domain (patrickbrandt.github.io/csd_enrollment)
+- Free tier should be sufficient for expected usage
 
 ### Data Gaps
 - College Heights excluded from visualization (no capacity data)
-- Talley Street only appears from FY20 onwards
-- Need to verify school coordinates
+- Talley Street only appears from FY20 onwards (show N/A for earlier years)
 
 ### Zoom Aggregation Logic
 - At mid-zoom level: Group schools by geographic cluster (North, South, Central)
@@ -255,11 +262,3 @@ The enrollment CSV and capacity PDF use slightly different naming:
 - Optional: MarkerClusterer library for Google Maps
 - No build tools required (can be added if needed)
 
----
-
-## Open Questions for Clarification
-
-1. **Google Maps API Key**: Do you have an existing API key, or should I create one?
-2. **City Boundary Data**: Should I source the Decatur city boundary GeoJSON, or do you have this data?
-3. **Zoom Behavior**: The requirement mentions "7x zoomed out" - should I interpret this as a specific zoom level threshold (e.g., zoom level 7), or design a more intuitive progressive aggregation?
-4. **School Coordinates**: Should I research the exact coordinates, or do you have official location data?
