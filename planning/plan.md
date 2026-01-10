@@ -141,12 +141,18 @@ The enrollment CSV and capacity PDF use slightly different naming:
    - Listen to map zoom_changed event
    - Define zoom thresholds:
      - Zoom >= 13: Show individual school markers
-     - Zoom 11-12: Group by school type (Elementary K-2, Upper Elem 3-5, Middle 6-8, High 9-12)
+     - Zoom 11-12: Group by geographic cluster (see below)
      - Zoom <= 10: Show single district-wide marker
+   - Geographic clusters (to be refined based on actual coordinates):
+     - **North Decatur**: Schools on the north side (e.g., Westchester, Glennwood, Clairemont)
+     - **South Decatur**: Schools on the south/east side (e.g., Oakhurst,  Winnona Park, Fifth Avenue, Talley Street)
+     - **Central**: Middle and high schools (Beacon Hill, Decatur High School)
+   - Each school record will include a `cluster` property for grouping
    - Recalculate aggregated values when grouping:
-     - Sum enrollments
-     - Sum capacities
-     - Calculate combined utilization
+     - Sum enrollments within cluster
+     - Sum capacities within cluster
+     - Calculate combined utilization per cluster
+   - Display cluster marker at geographic centroid of grouped schools
 
 ### Phase 6: Integration & Polish
 
@@ -183,6 +189,7 @@ The enrollment CSV and capacity PDF use slightly different naming:
       "shortName": "Clairemont",
       "grades": "K-2",
       "type": "elementary_lower",
+      "cluster": "north",
       "capacity": 365,
       "lat": 33.7745,
       "lng": -84.2961,
@@ -194,6 +201,11 @@ The enrollment CSV and capacity PDF use slightly different naming:
     },
     ...
   ],
+  "clusters": {
+    "north": { "name": "North Decatur", "schools": ["westchester", "glennwood", "clairemont"] },
+    "south": { "name": "South Decatur", "schools": ["oakhurst", "winnona_park", "fifth_avenue", "talley_street"] },
+    "central": { "name": "Central Decatur", "schools": ["beacon_hill", "decatur_high"] }
+  },
   "years": ["FY14", "FY15", ..., "FY26"],
   "cityBoundary": { /* GeoJSON */ }
 }
@@ -214,7 +226,8 @@ The enrollment CSV and capacity PDF use slightly different naming:
 - Need to verify school coordinates
 
 ### Zoom Aggregation Logic
-- At district level (zoomed out): Show single marker with total enrollment vs total capacity
+- At mid-zoom level: Group schools by geographic cluster (North, South, Central)
+- At district level (fully zoomed out): Show single marker with total enrollment vs total capacity
 - The "7x zoomed out" in requirements is vague - will implement zoom level thresholds instead
 
 ### Accessibility
