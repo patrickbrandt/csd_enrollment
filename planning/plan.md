@@ -54,13 +54,13 @@ Build a web-based visualization for City Schools of Decatur enrollment and capac
 ## Application Structure
 
 ### Tabbed Interface
-- **Tab 1: Utilization by Year** (existing functionality)
+- **Tab 1: Utilization by Year**
   - Year selector dropdown
   - Table view (School, Enrollment, Capacity, Utilization)
   - Map view with clustering
   - Historical notes section
 
-- **Tab 2: Utilization by School** (new)
+- **Tab 2: Utilization by School**
   - Line graph (x-axis: fiscal year, y-axis: utilization %)
   - Interactive legend on right side
   - Historical notes section
@@ -69,7 +69,7 @@ Build a web-based visualization for City Schools of Decatur enrollment and capac
 
 ## Implementation Steps
 
-### Phase 1: Project Setup (COMPLETED)
+### Phase 1: Project Setup
 
 1. **Initialize project structure**
    ```
@@ -82,20 +82,20 @@ Build a web-based visualization for City Schools of Decatur enrollment and capac
    │   ├── data.js
    │   ├── table.js
    │   ├── map.js
-   │   └── chart.js (NEW)
+   │   └── chart.js
    ├── data/
    │   └── schools.json
    └── planning/
        └── requirements.md
    ```
 
-2. **Process and consolidate data** (COMPLETED)
+2. **Process and consolidate data**
 
-### Phase 2: Data Layer (COMPLETED)
+### Phase 2: Data Layer
 
-3. **School coordinates and data** (COMPLETED)
+3. **School coordinates and data**
 
-4. **Data module functions** (COMPLETED)
+4. **Data module functions**
    - `getSchoolsByYear(year)`
    - `getYears()`
    - `calculateUtilization(enrollment, capacity)`
@@ -103,13 +103,13 @@ Build a web-based visualization for City Schools of Decatur enrollment and capac
    - `getSchoolUtilizationHistory(schoolId)` - returns utilization by year
    - `getClusterUtilizationHistory(clusterId)` - returns cluster utilization by year
 
-### Phase 3: Utilization by Year Tab (COMPLETED)
+### Phase 3: Utilization by Year Tab
 
-5. **Year selector** (COMPLETED)
-6. **Table view** (COMPLETED)
-7. **Map view with clustering** (COMPLETED)
+5. **Year selector**
+6. **Table view**
+7. **Map view with clustering**
 
-### Phase 4: Tabbed Interface (NEW)
+### Phase 4: Tabbed Interface
 
 8. **Implement tab navigation**
    - Add tab buttons to header: "Utilization by Year", "Utilization by School"
@@ -117,7 +117,7 @@ Build a web-based visualization for City Schools of Decatur enrollment and capac
    - Store active tab in state
    - Style active tab indicator
 
-### Phase 5: Utilization by School Tab (NEW)
+### Phase 5: Utilization by School Tab
 
 9. **Add Chart.js library**
    - Include Chart.js via CDN in index.html
@@ -148,7 +148,7 @@ Build a web-based visualization for City Schools of Decatur enrollment and capac
     - Color swatch next to each item matching line color
     - Default: Show "All" selected on load
 
-### Phase 6: Historical Notes Section (NEW)
+### Phase 6: Historical Notes Section
 
 12. **Add notes component**
     - Display below table/map in "Utilization by Year" tab
@@ -252,7 +252,7 @@ Build a web-based visualization for City Schools of Decatur enrollment and capac
 
 ## Key Considerations
 
-### Google Maps API (COMPLETED)
+### Google Maps API
 - API key configured and restricted
 
 ### Data Gaps
