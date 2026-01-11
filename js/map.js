@@ -177,15 +177,18 @@ const MapView = (function() {
             let totalEnrollment = 0, totalCapacity = 0;
 
             clusterSchools.forEach(school => {
-                if (school.lat && school.lng) {
-                    totalLat += school.lat;
-                    totalLng += school.lng;
-                    count++;
-                }
-
                 const enrollment = school.enrollment[year];
-                if (enrollment) totalEnrollment += enrollment;
-                if (school.capacity) totalCapacity += school.capacity;
+
+                // Only include schools that have enrollment data for this year
+                if (enrollment) {
+                    if (school.lat && school.lng) {
+                        totalLat += school.lat;
+                        totalLng += school.lng;
+                        count++;
+                    }
+                    totalEnrollment += enrollment;
+                    if (school.capacity) totalCapacity += school.capacity;
+                }
             });
 
             if (count === 0) return;
