@@ -6,6 +6,7 @@ An interactive web visualization showing enrollment and capacity data for City S
 
 ## Features
 
+### Utilization by Year Tab
 - **Year Selector**: View enrollment data for any fiscal year from 2014-2026
 - **Table View**: School-by-school enrollment, capacity, and utilization
 - **Interactive Map**: Google Maps integration with:
@@ -14,6 +15,15 @@ An interactive web visualization showing enrollment and capacity data for City S
   - District-wide aggregation (zoom level 11 and below)
   - City of Decatur boundary overlay
   - Color-coded utilization indicators (green <85%, yellow 85-100%, red >100%)
+
+### Utilization by School Tab
+- **Line Chart**: Utilization trends over time (FY14-FY26) with 100% capacity reference line
+- **Interactive Legend**: Toggle visibility for individual schools and geographic clusters
+- **Flexible Comparison**: Compare any combination of schools, clusters, or district-wide data
+
+### Additional Information
+- **Historical Notes**: Context about school openings, grade reconfigurations, and capacity expansions
+- **Geographic Clusters**: Visual reference showing which schools belong to each cluster
 
 ## Data Sources
 
