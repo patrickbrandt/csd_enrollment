@@ -299,6 +299,77 @@ tbody tr.totals {
     border-top: 1px dashed #e0c56c;
 }
 
+/* Geographic Clusters Section */
+.clusters-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+
+.clusters-section h3 {
+    color: #003366;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.clusters-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.cluster-card {
+    padding: 1rem;
+    border-radius: 6px;
+    border-left: 4px solid;
+}
+
+.cluster-card h4 {
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+}
+
+.cluster-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cluster-card li {
+    font-size: 0.85rem;
+    padding: 0.25rem 0;
+    color: #555;
+}
+
+.cluster-north {
+    background-color: #e8f5e9;
+    border-color: #4CAF50;
+}
+
+.cluster-north h4 {
+    color: #2e7d32;
+}
+
+.cluster-central {
+    background-color: #fff3e0;
+    border-color: #FF9800;
+}
+
+.cluster-central h4 {
+    color: #e65100;
+}
+
+.cluster-south {
+    background-color: #e3f2fd;
+    border-color: #2196F3;
+}
+
+.cluster-south h4 {
+    color: #1565c0;
+}
+
 /* Footer */
 footer {
     text-align: center;
@@ -331,6 +402,10 @@ footer {
 
     .chart-wrapper {
         height: 350px;
+    }
+
+    .clusters-grid {
+        grid-template-columns: 1fr;
     }
 }
 
