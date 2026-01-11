@@ -71,9 +71,6 @@ const SchoolData = (function() {
         return data ? data.cityBoundary : null;
     }
 
-    // Initialize - load data
-    loadData();
-
     // Public API
     return {
         loadData,
@@ -83,6 +80,10 @@ const SchoolData = (function() {
         getAggregatedData,
         getAllSchools,
         getClusters,
-        getCityBoundary
+        getCityBoundary,
+        isReady: () => data !== null
     };
 })();
+
+// Start loading data immediately
+SchoolData.loadData();

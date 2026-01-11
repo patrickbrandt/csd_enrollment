@@ -4,14 +4,20 @@ const App = (function() {
 
     let currentYear = 'FY26'; // Default to most recent year
 
-    // Initialize application (called from initMap callback)
-    function init() {
+    // Initialize application
+    async function init() {
         console.log('Initializing CSD Enrollment Visualization...');
 
         // Wait for data to load
         if (typeof SchoolData === 'undefined') {
-            console.error('School data not loaded');
+            console.error('SchoolData module not loaded');
             return;
+        }
+
+        // Wait for data to be ready
+        if (!SchoolData.isReady()) {
+            console.log('Waiting for school data to load...');
+            await SchoolData.loadData();
         }
 
         // Initialize year selector
@@ -23,7 +29,7 @@ const App = (function() {
             TableView.update(currentYear);
         }
 
-        // Map will be initialized by Google Maps callback
+        console.log('App initialized successfully');
     }
 
     // Initialize year selector
