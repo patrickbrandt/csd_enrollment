@@ -29,6 +29,8 @@ An interactive web visualization showing enrollment and capacity data for City S
 - **Historical Notes**: Context about school openings, grade reconfigurations, and capacity expansions
 - **Geographic Clusters**: Visual reference showing which schools belong to each cluster
 
+<img width="1356" height="646" alt="image" src="https://github.com/user-attachments/assets/70b1760c-5c98-437e-812e-f44bac042f51" />
+
 ## Data Sources
 
 - **Enrollment Data**: Annual enrollment by school from FY2014 to FY2026 ([source](https://lookerstudio.google.com/u/0/reporting/c74596f8-98d8-4afd-a8d0-754877da3301/page/XUfcF))
