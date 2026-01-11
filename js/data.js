@@ -3,18 +3,41 @@ const SchoolData = (function() {
     'use strict';
 
     let data = null;
+    let loadingPromise = null;
 
     // Load school data
     async function loadData() {
-        try {
-            const response = await fetch('data/schools.json');
-            data = await response.json();
-            console.log('School data loaded successfully');
+        // If already loaded, return the data
+        if (data !== null) {
+            console.log('Data already loaded');
             return data;
-        } catch (error) {
-            console.error('Error loading school data:', error);
-            return null;
         }
+
+        // If currently loading, return the existing promise
+        if (loadingPromise !== null) {
+            console.log('Data is currently loading, waiting...');
+            return loadingPromise;
+        }
+
+        // Start loading
+        console.log('Starting to load school data...');
+        loadingPromise = (async () => {
+            try {
+                const response = await fetch('data/schools.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                data = await response.json();
+                console.log('School data loaded successfully:', data.schools.length, 'schools');
+                return data;
+            } catch (error) {
+                console.error('Error loading school data:', error);
+                loadingPromise = null;
+                return null;
+            }
+        })();
+
+        return loadingPromise;
     }
 
     // Get all available years

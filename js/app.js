@@ -6,7 +6,7 @@ const App = (function() {
 
     // Initialize application
     async function init() {
-        console.log('Initializing CSD Enrollment Visualization...');
+        console.log('App.init() called');
 
         // Wait for data to load
         if (typeof SchoolData === 'undefined') {
@@ -15,16 +15,23 @@ const App = (function() {
         }
 
         // Wait for data to be ready
-        if (!SchoolData.isReady()) {
-            console.log('Waiting for school data to load...');
-            await SchoolData.loadData();
+        console.log('Loading data...');
+        const data = await SchoolData.loadData();
+
+        if (!data) {
+            console.error('Failed to load school data');
+            return;
         }
 
+        console.log('Data loaded, years:', SchoolData.getYears());
+
         // Initialize year selector
+        console.log('Initializing year selector...');
         initYearSelector();
 
         // Initialize table
         if (typeof TableView !== 'undefined') {
+            console.log('Initializing table view...');
             TableView.init();
             TableView.update(currentYear);
         }
