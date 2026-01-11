@@ -100,8 +100,8 @@ Build a web-based visualization for City Schools of Decatur enrollment and capac
    - `getYears()`
    - `calculateUtilization(enrollment, capacity)`
    - `getAggregatedData(year)`
-   - NEW: `getSchoolUtilizationHistory(schoolId)` - returns utilization by year
-   - NEW: `getClusterUtilizationHistory(clusterId)` - returns cluster utilization by year
+   - `getSchoolUtilizationHistory(schoolId)` - returns utilization by year
+   - `getClusterUtilizationHistory(clusterId)` - returns cluster utilization by year
 
 ### Phase 3: Utilization by Year Tab (COMPLETED)
 
@@ -279,7 +279,7 @@ Build a web-based visualization for City Schools of Decatur enrollment and capac
 4. `js/data.js` - Data loading and processing
 5. `js/table.js` - Table component
 6. `js/map.js` - Map component with clustering
-7. `js/chart.js` - NEW: Chart component with legend
+7. `js/chart.js` - Chart component with legend
 8. `data/schools.json` - Processed school data
 
 ---
