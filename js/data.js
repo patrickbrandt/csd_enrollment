@@ -94,6 +94,68 @@ const SchoolData = (function() {
         return data ? data.cityBoundary : null;
     }
 
+    // Get utilization history for a specific school
+    function getSchoolUtilizationHistory(schoolId) {
+        if (!data || !data.schools) return [];
+
+        const school = data.schools.find(s => s.id === schoolId);
+        if (!school) return [];
+
+        const years = getYears();
+        return years.map(year => {
+            const enrollment = school.enrollment[year];
+            if (!enrollment) return { year, utilization: null };
+            return {
+                year,
+                utilization: calculateUtilization(enrollment, school.capacity)
+            };
+        });
+    }
+
+    // Get utilization history for a cluster
+    function getClusterUtilizationHistory(clusterId) {
+        if (!data || !data.clusters) return [];
+
+        const cluster = data.clusters[clusterId];
+        if (!cluster) return [];
+
+        const years = getYears();
+        const clusterSchools = data.schools.filter(s => cluster.schools.includes(s.id));
+
+        return years.map(year => {
+            let totalEnrollment = 0;
+            let totalCapacity = 0;
+
+            clusterSchools.forEach(school => {
+                const enrollment = school.enrollment[year];
+                if (enrollment) {
+                    totalEnrollment += enrollment;
+                    if (school.capacity) totalCapacity += school.capacity;
+                }
+            });
+
+            if (totalEnrollment === 0) return { year, utilization: null };
+            return {
+                year,
+                utilization: calculateUtilization(totalEnrollment, totalCapacity)
+            };
+        });
+    }
+
+    // Get district-wide utilization history
+    function getDistrictUtilizationHistory() {
+        if (!data) return [];
+
+        const years = getYears();
+        return years.map(year => {
+            const aggregated = getAggregatedData(year);
+            return {
+                year,
+                utilization: aggregated.utilization
+            };
+        });
+    }
+
     // Public API
     return {
         loadData,
@@ -104,6 +166,9 @@ const SchoolData = (function() {
         getAllSchools,
         getClusters,
         getCityBoundary,
+        getSchoolUtilizationHistory,
+        getClusterUtilizationHistory,
+        getDistrictUtilizationHistory,
         isReady: () => data !== null
     };
 })();

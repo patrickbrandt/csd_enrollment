@@ -27,11 +27,13 @@ Build a web-based visualization for City Schools of Decatur enrollment and capac
 | Decatur High School | 1971 | 9-12 |
 | ~~College Heights~~ | N/A | Early Learning | **(Excluded)**
 
-### School Name Mapping
-The enrollment CSV and capacity PDF use slightly different naming:
-- CSV: "Clairemont" → PDF: "Clairmont Elem"
-- CSV: "Glennwood" → PDF: "Glennwood Elem"
-- CSV: "Talley Street" → PDF: "Talley Upper Elem"
+### Historical Notes (to display in UI)
+- Talley Street opened in FY2020
+- In FY2020, all 3rd grade classes moved from elementary schools to upper elementary schools
+- Westchester re-opened in FY2015
+- High school capacity expanded in FY2019
+- Middle school capacity expanded in FY2017
+- Capacity numbers use FY26 values only, so pre-expansion utilization is underreported
 
 ---
 
@@ -39,18 +41,35 @@ The enrollment CSV and capacity PDF use slightly different naming:
 
 | Component | Technology | Rationale |
 |-----------|------------|-----------|
-| Framework | Vanilla JS or lightweight (Alpine.js) | Simple requirements, fast load times |
-| Styling | CSS (or Tailwind via CDN) | Minimal styling needs |
+| Framework | Vanilla JS | Simple requirements, fast load times |
+| Styling | CSS | Minimal styling needs |
 | Maps | Google Maps JavaScript API | Required per spec |
+| Charts | Chart.js (via CDN) | Lightweight, easy line charts |
 | Data | Static JSON files | Pre-processed from CSV/PDF |
 | Hosting | GitHub Pages | Per requirements |
-| Build | None (static) or Vite | Keep it simple |
+| Build | None (static) | Keep it simple |
+
+---
+
+## Application Structure
+
+### Tabbed Interface
+- **Tab 1: Utilization by Year** (existing functionality)
+  - Year selector dropdown
+  - Table view (School, Enrollment, Capacity, Utilization)
+  - Map view with clustering
+  - Historical notes section
+
+- **Tab 2: Utilization by School** (new)
+  - Line graph (x-axis: fiscal year, y-axis: utilization %)
+  - Interactive legend on right side
+  - Historical notes section
 
 ---
 
 ## Implementation Steps
 
-### Phase 1: Project Setup
+### Phase 1: Project Setup (COMPLETED)
 
 1. **Initialize project structure**
    ```
@@ -62,126 +81,110 @@ The enrollment CSV and capacity PDF use slightly different naming:
    │   ├── app.js
    │   ├── data.js
    │   ├── table.js
-   │   └── map.js
+   │   ├── map.js
+   │   └── chart.js (NEW)
    ├── data/
-   │   └── schools.json (processed data)
+   │   └── schools.json
    └── planning/
        └── requirements.md
    ```
 
-2. **Process and consolidate data**
-   - Create `schools.json` containing:
-     - School names (normalized)
-     - Capacity values
-     - Enrollment by year
-     - Geographic coordinates (lat/lng for each school)
-     - Grade levels
+2. **Process and consolidate data** (COMPLETED)
 
-### Phase 2: Data Layer
+### Phase 2: Data Layer (COMPLETED)
 
-3. **Create data processing script**
-   - Parse enrollment CSV
-   - Map school names to capacity values
-   - School coordinates and addresses:
-     | School | Address | Coordinates |
-     |--------|---------|-------------|
-     | Clairemont Elementary | 155 Erie Ave, Decatur, GA 30030 | 33.7752, -84.2961 |
-     | Glennwood Elementary | 440 E Ponce de Leon Ave, Decatur, GA 30030 | 33.7738, -84.2878 |
-     | Oakhurst Elementary | 175 Mead Rd, Decatur, GA 30030 | 33.7614, -84.2934 |
-     | Westchester Elementary | 758 Scott Blvd, Decatur, GA 30030 | 33.7831, -84.3067 |
-     | Winnona Park Elementary | 510 Avery St, Decatur, GA 30030 | 33.7682, -84.3052 |
-     | Fifth Avenue Upper Elementary | 101 5th Ave, Decatur, GA 30030 | 33.7748, -84.2956 |
-     | Talley Street Upper Elementary | 2617 Talley St, Decatur, GA 30030 | 33.7621, -84.3101 |
-     | Beacon Hill (Renfroe Middle) | 220 W College Ave, Decatur, GA 30030 | 33.7678, -84.2993 |
-     | Decatur High School | 310 N McDonough St, Decatur, GA 30030 | 33.7707, -84.2978 |
+3. **School coordinates and data** (COMPLETED)
 
-4. **Create data module (data.js)**
-   - Load schools.json
-   - Export functions:
-     - `getSchoolsByYear(year)` - returns array of school data
-     - `getYears()` - returns available years
-     - `calculateUtilization(enrollment, capacity)` - returns percentage
-     - `getAggregatedData(year)` - returns district totals
+4. **Data module functions** (COMPLETED)
+   - `getSchoolsByYear(year)`
+   - `getYears()`
+   - `calculateUtilization(enrollment, capacity)`
+   - `getAggregatedData(year)`
+   - NEW: `getSchoolUtilizationHistory(schoolId)` - returns utilization by year
+   - NEW: `getClusterUtilizationHistory(clusterId)` - returns cluster utilization by year
 
-### Phase 3: Year Selector Component
+### Phase 3: Utilization by Year Tab (COMPLETED)
 
-5. **Implement year selector**
-   - Dropdown populated with FY14-FY26
-   - Default to most recent year (FY26)
-   - On change: dispatch custom event to update table and map
-   - Store selected year in module state
+5. **Year selector** (COMPLETED)
+6. **Table view** (COMPLETED)
+7. **Map view with clustering** (COMPLETED)
 
-### Phase 4: Table View Component
+### Phase 4: Tabbed Interface (NEW)
 
-6. **Implement table view (table.js)**
-   - Create HTML table structure
-   - Columns: School, Enrollment, Capacity, Utilization
-   - Utilization calculated as: `(enrollment / capacity) * 100`
-   - Color-code utilization:
-     - Green: < 85%
-     - Yellow: 85-100%
-     - Red: > 100%
-   - Sort by school name alphabetically
-   - Add district totals row at bottom
+8. **Implement tab navigation**
+   - Add tab buttons to header: "Utilization by Year", "Utilization by School"
+   - Show/hide content sections based on active tab
+   - Store active tab in state
+   - Style active tab indicator
 
-### Phase 5: Map View Component
+### Phase 5: Utilization by School Tab (NEW)
 
-7. **Set up Google Maps**
-   - Create Google Maps API key in Google Cloud Console
-     - Enable Maps JavaScript API
-     - Restrict key to GitHub Pages domain (patrickbrandt.github.io)
-   - Initialize map centered on Decatur, GA (~33.7748, -84.2963)
-   - Set appropriate default zoom (~14) to show all schools
-   - Add City of Decatur boundary polygon
-     - Source options (in order of preference):
-       1. City of Decatur Open Data Portal: https://data-decaturga.opendata.arcgis.com/datasets/city-limits
-       2. ARC Open Data Hub: https://arc-garc.opendata.arcgis.com/datasets/decaturga::decatur-city-limits-2
-       3. U.S. Census TIGER/Line (Georgia Places): https://catalog.data.gov/dataset/tiger-line-shapefile-2022-state-georgia-ga-place
-     - Style: semi-transparent fill with border
+9. **Add Chart.js library**
+   - Include Chart.js via CDN in index.html
+   - Create chart.js module for chart functionality
 
-8. **Implement school markers**
-   - Create custom markers/info windows for each school
-   - Display: School name, Enrollment, Capacity, Utilization %
-   - Color-code markers by utilization (same as table)
-   - Use MarkerClusterer or custom clustering for zoom behavior
+10. **Implement line chart**
+    - X-axis: Fiscal years (FY14-FY26)
+    - Y-axis: Utilization percentage (0-150% or auto-scale)
+    - One line per selected school/cluster
+    - Color-code lines to match legend
+    - Add horizontal reference line at 100% capacity
+    - Tooltip showing exact values on hover
 
-9. **Implement zoom-based aggregation**
-   - Listen to map zoom_changed event
-   - Define zoom thresholds:
-     - Zoom >= 13: Show individual school markers
-     - Zoom 11-12: Group by geographic cluster (see below)
-     - Zoom <= 10: Show single district-wide marker
-   - Geographic clusters (to be refined based on actual coordinates):
-     - **North Decatur**: Schools on the north side (e.g., Westchester, Glennwood, Clairemont)
-     - **South Decatur**: Schools on the south/east side (e.g., Oakhurst,  Winnona Park, Fifth Avenue, Talley Street)
-     - **Central**: Middle and high schools (Beacon Hill, Decatur High School)
-   - Each school record will include a `cluster` property for grouping
-   - Recalculate aggregated values when grouping:
-     - Sum enrollments within cluster
-     - Sum capacities within cluster
-     - Calculate combined utilization per cluster
-   - Display cluster marker at geographic centroid of grouped schools
+11. **Implement interactive legend**
+    - Position: Right side of chart
+    - Checkboxes to toggle visibility of each line
+    - Organization (top to bottom):
+      - **Clusters section:**
+        - All (district-wide)
+        - North Decatur
+        - Central Decatur
+        - South Decatur
+      - **Schools section** (sorted by grade level, then alphabetically):
+        - Elementary K-2: Clairemont, Glennwood, Oakhurst, Westchester, Winnona Park
+        - Upper Elementary 3-5: Fifth Avenue, Talley Street
+        - Middle 6-8: Beacon Hill
+        - High 9-12: Decatur High School
+    - Color swatch next to each item matching line color
+    - Default: Show "All" selected on load
 
-### Phase 6: Integration & Polish
+### Phase 6: Historical Notes Section (NEW)
 
-10. **Wire components together**
-    - Year selector updates both table and map
-    - Responsive layout (table and map side-by-side on desktop, stacked on mobile)
-    - Add loading states
+12. **Add notes component**
+    - Display below table/map in "Utilization by Year" tab
+    - Display below chart in "Utilization by School" tab
+    - Content:
+      - "Talley Street opened in FY2020"
+      - "In FY2020, 3rd grade classes moved to upper elementary schools"
+      - "Westchester re-opened in FY2015"
+      - "High school capacity expanded in FY2019"
+      - "Middle school capacity expanded in FY2017"
+      - "Note: Capacity numbers use FY26 values; pre-expansion utilization may be underreported"
+    - Style: Muted/info box appearance
 
-11. **Styling**
-    - Clean, professional appearance
-    - CSD brand colors if available
-    - Accessible color contrast
-    - Mobile-responsive design
+### Phase 7: Polish & Integration
 
-### Phase 7: Deployment
+13. **Update styling for tabs**
+    - Tab button styles (active/inactive states)
+    - Responsive layout for both tabs
+    - Chart container sizing
+    - Legend styling with checkboxes
 
-12. **Prepare for GitHub Pages**
-    - Ensure all paths are relative
-    - Create and configure Google Maps API key (restricted to patrickbrandt.github.io)
-    - Test locally with a simple HTTP server
-    - Enable GitHub Pages in repository settings (already created)
+14. **Ensure data consistency**
+    - Chart and table should use same calculation logic
+    - Handle missing data (e.g., Talley Street pre-FY20, Westchester FY14)
+
+### Phase 8: Testing & Deployment
+
+15. **Test all functionality**
+    - Tab switching
+    - Chart interactions (legend toggles, tooltips)
+    - Map clustering still works
+    - Responsive design on mobile
+
+16. **Deploy to GitHub Pages**
+    - Commit and push changes
+    - Verify at https://patrickbrandt.github.io/csd_enrollment
 
 ---
 
@@ -220,45 +223,69 @@ The enrollment CSV and capacity PDF use slightly different naming:
 
 ---
 
+## Chart Configuration
+
+### Line Chart Settings
+- Type: Line chart
+- Responsive: true
+- Maintain aspect ratio: false (allow custom height)
+- Y-axis: Start at 0, suggest max 150
+- X-axis: All fiscal years
+- Grid lines: Light gray
+- Reference line at 100%: Dashed red line
+
+### Color Palette for Lines
+| Item | Color |
+|------|-------|
+| All (District) | #333333 (dark gray) |
+| North Cluster | #4CAF50 (green) |
+| Central Cluster | #FF9800 (orange) |
+| South Cluster | #2196F3 (blue) |
+| Individual Schools | Varied palette |
+
+### Legend Behavior
+- Clicking checkbox toggles line visibility
+- At least one item must remain selected
+- Lines smoothly appear/disappear (CSS transition)
+
+---
+
 ## Key Considerations
 
-### Google Maps API
-- Create new API key in Google Cloud Console
-- Enable Maps JavaScript API
-- Restrict key to GitHub Pages domain (patrickbrandt.github.io/csd_enrollment)
-- Free tier should be sufficient for expected usage
+### Google Maps API (COMPLETED)
+- API key configured and restricted
 
 ### Data Gaps
-- College Heights excluded from visualization (no capacity data)
-- Talley Street only appears from FY20 onwards (show N/A for earlier years)
+- College Heights excluded (no capacity data)
+- Talley Street: No data before FY20
+- Westchester: No data for FY14
 
-### Zoom Aggregation Logic
-- At mid-zoom level: Group schools by geographic cluster (North, South, Central)
-- At district level (fully zoomed out): Show single marker with total enrollment vs total capacity
-- The "7x zoomed out" in requirements is vague - will implement zoom level thresholds instead
+### Historical Context
+- Display notes about capacity changes prominently
+- Users should understand pre-expansion utilization is understated
 
 ### Accessibility
-- Ensure color is not the only indicator of utilization status
-- Add aria labels to interactive elements
-- Keyboard navigation support
+- Color is not the only indicator (use patterns/labels)
+- Keyboard navigation for tabs and legend
+- Screen reader support for chart data
 
 ---
 
 ## File Deliverables
 
-1. `index.html` - Main page structure
-2. `css/styles.css` - All styling
-3. `js/app.js` - Main application logic, initialization
+1. `index.html` - Main page with tabbed structure
+2. `css/styles.css` - All styling including tabs and chart
+3. `js/app.js` - Main application logic, tab management
 4. `js/data.js` - Data loading and processing
 5. `js/table.js` - Table component
 6. `js/map.js` - Map component with clustering
-7. `data/schools.json` - Processed school data
+7. `js/chart.js` - NEW: Chart component with legend
+8. `data/schools.json` - Processed school data
 
 ---
 
 ## Dependencies
 
 - Google Maps JavaScript API
-- Optional: MarkerClusterer library for Google Maps
-- No build tools required (can be added if needed)
-
+- Chart.js (via CDN): https://cdn.jsdelivr.net/npm/chart.js
+- No build tools required

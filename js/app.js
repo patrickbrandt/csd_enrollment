@@ -3,6 +3,8 @@ const App = (function() {
     'use strict';
 
     let currentYear = 'FY26'; // Default to most recent year
+    let currentTab = 'by-year';
+    let chartInitialized = false;
 
     // Initialize application
     async function init() {
@@ -25,6 +27,9 @@ const App = (function() {
 
         console.log('Data loaded, years:', SchoolData.getYears());
 
+        // Initialize tab navigation
+        initTabs();
+
         // Initialize year selector
         console.log('Initializing year selector...');
         initYearSelector();
@@ -37,6 +42,44 @@ const App = (function() {
         }
 
         console.log('App initialized successfully');
+    }
+
+    // Initialize tab navigation
+    function initTabs() {
+        const tabButtons = document.querySelectorAll('.tab-button');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.dataset.tab;
+                switchTab(tabId);
+            });
+        });
+    }
+
+    // Switch between tabs
+    function switchTab(tabId) {
+        if (tabId === currentTab) return;
+
+        // Update button states
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tab === tabId);
+        });
+
+        // Update content visibility
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.toggle('active', content.id === 'tab-' + tabId);
+        });
+
+        currentTab = tabId;
+
+        // Initialize chart on first view of "by-school" tab
+        if (tabId === 'by-school' && !chartInitialized) {
+            if (typeof ChartView !== 'undefined') {
+                console.log('Initializing chart view...');
+                ChartView.init();
+                chartInitialized = true;
+            }
+        }
     }
 
     // Initialize year selector

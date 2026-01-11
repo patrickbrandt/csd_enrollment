@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>City Schools of Decatur - Enrollment & Capacity</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <header>
@@ -13,24 +14,72 @@
     </header>
 
     <main>
-        <div class="controls">
-            <label for="year-selector">Fiscal Year:</label>
-            <select id="year-selector">
-                <!-- Populated by JavaScript -->
-            </select>
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <button class="tab-button active" data-tab="by-year">Utilization by Year</button>
+            <button class="tab-button" data-tab="by-school">Utilization by School</button>
         </div>
 
-        <div class="content-container">
-            <section class="table-section">
-                <h3>School Enrollment & Capacity</h3>
-                <div id="table-container">
-                    <!-- Table populated by JavaScript -->
-                </div>
-            </section>
+        <!-- Tab 1: Utilization by Year -->
+        <div id="tab-by-year" class="tab-content active">
+            <div class="controls">
+                <label for="year-selector">Fiscal Year:</label>
+                <select id="year-selector">
+                    <!-- Populated by JavaScript -->
+                </select>
+            </div>
 
-            <section class="map-section">
-                <h3>Map View</h3>
-                <div id="map"></div>
+            <div class="content-container">
+                <section class="table-section">
+                    <h3>School Enrollment & Capacity</h3>
+                    <div id="table-container">
+                        <!-- Table populated by JavaScript -->
+                    </div>
+                </section>
+
+                <section class="map-section">
+                    <h3>Map View</h3>
+                    <div id="map"></div>
+                </section>
+            </div>
+
+            <section class="notes-section">
+                <h3>Historical Notes</h3>
+                <ul class="notes-list">
+                    <li>Talley Street opened in FY2020</li>
+                    <li>In FY2020, 3rd grade classes moved from elementary to upper elementary schools</li>
+                    <li>Westchester re-opened in FY2015</li>
+                    <li>High school capacity expanded in FY2019</li>
+                    <li>Middle school capacity expanded in FY2017</li>
+                    <li><strong>Note:</strong> Capacity numbers use FY26 values; pre-expansion utilization may be underreported</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- Tab 2: Utilization by School -->
+        <div id="tab-by-school" class="tab-content">
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="utilization-chart"></canvas>
+                </div>
+                <div class="legend-container">
+                    <h4>Select Schools/Clusters</h4>
+                    <div id="chart-legend">
+                        <!-- Legend populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <section class="notes-section">
+                <h3>Historical Notes</h3>
+                <ul class="notes-list">
+                    <li>Talley Street opened in FY2020</li>
+                    <li>In FY2020, 3rd grade classes moved from elementary to upper elementary schools</li>
+                    <li>Westchester re-opened in FY2015</li>
+                    <li>High school capacity expanded in FY2019</li>
+                    <li>Middle school capacity expanded in FY2017</li>
+                    <li><strong>Note:</strong> Capacity numbers use FY26 values; pre-expansion utilization may be underreported</li>
+                </ul>
             </section>
         </div>
     </main>
@@ -42,6 +91,7 @@
     <script src="js/data.js"></script>
     <script src="js/table.js"></script>
     <script src="js/map.js"></script>
+    <script src="js/chart.js"></script>
     <script src="js/app.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvBvOpH3cV3reEL63clPkQPNvdBJZCf2o&callback=initMap" async defer></script>
 </body>
