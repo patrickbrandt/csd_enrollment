@@ -2,6 +2,8 @@
 
 An interactive web visualization showing enrollment and capacity data for City Schools of Decatur schools from FY2014 to FY2026.
 
+[https://patrickbrandt.github.io/csd_enrollment/](https://patrickbrandt.github.io/csd_enrollment/)
+
 ## Features
 
 - **Year Selector**: View enrollment data for any fiscal year from 2014-2026
