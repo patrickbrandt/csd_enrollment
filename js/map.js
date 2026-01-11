@@ -14,7 +14,7 @@ const MapView = (function() {
     const ZOOM_CLUSTER = 11;
 
     // Initialize map when Google Maps API is loaded
-    function init() {
+    async function init() {
         // Wait for SchoolData to be ready
         if (typeof SchoolData === 'undefined') {
             console.error('School data not loaded');
@@ -35,6 +35,10 @@ const MapView = (function() {
             streetViewControl: false,
             fullscreenControl: true
         });
+
+        // Wait for data to load before adding boundary and markers
+        console.log('Map waiting for school data...');
+        await SchoolData.loadData();
 
         // Add city boundary
         addCityBoundary();
