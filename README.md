@@ -22,6 +22,8 @@ An interactive web visualization showing enrollment and capacity data for City S
 - **City Boundary**: GeoJSON from ARC Open Data & Mapping Hub
 - **School Locations**: Verified addresses and coordinates for each school
 
+Links to all school data can be found [here](https://www.csdecatur.net/our-district-5f/departments/operations/k-2schoolutilization).
+
 ## Schools Included
 
 - Beacon Hill Middle School (6-8)
