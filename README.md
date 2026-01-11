@@ -16,10 +16,14 @@ An interactive web visualization showing enrollment and capacity data for City S
   - City of Decatur boundary overlay
   - Color-coded utilization indicators (green <85%, yellow 85-100%, red >100%)
 
+ <img width="1365" height="837" alt="image" src="https://github.com/user-attachments/assets/9f5e6244-13af-417e-8c5a-597e7afe931d" />
+
 ### Utilization by School Tab
 - **Line Chart**: Utilization trends over time (FY14-FY26) with 100% capacity reference line
 - **Interactive Legend**: Toggle visibility for individual schools and geographic clusters
 - **Flexible Comparison**: Compare any combination of schools, clusters, or district-wide data
+
+<img width="1355" height="571" alt="image" src="https://github.com/user-attachments/assets/956a3404-e06b-4e89-a597-1a911e852eb8" />
 
 ### Additional Information
 - **Historical Notes**: Context about school openings, grade reconfigurations, and capacity expansions
