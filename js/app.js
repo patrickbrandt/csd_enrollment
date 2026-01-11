@@ -1,10 +1,10 @@
 // Main application logic
-(function() {
+const App = (function() {
     'use strict';
 
     let currentYear = 'FY26'; // Default to most recent year
 
-    // Initialize application
+    // Initialize application (called from initMap callback)
     function init() {
         console.log('Initializing CSD Enrollment Visualization...');
 
@@ -23,10 +23,7 @@
             TableView.update(currentYear);
         }
 
-        // Initialize map
-        if (typeof MapView !== 'undefined') {
-            MapView.init();
-        }
+        // Map will be initialized by Google Maps callback
     }
 
     // Initialize year selector
@@ -61,10 +58,15 @@
         }
     }
 
-    // Start app when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+    // Public API
+    return {
+        init
+    };
 })();
+
+// Start app when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', App.init);
+} else {
+    App.init();
+}
