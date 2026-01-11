@@ -117,6 +117,7 @@ const MapView = (function() {
 
             const utilization = SchoolData.calculateUtilization(school.enrollment, school.capacity);
             const markerColor = getMarkerColor(utilization);
+            const utilizationText = utilization !== null ? utilization + '%' : 'N/A';
 
             const marker = new google.maps.Marker({
                 position: { lat: school.lat, lng: school.lng },
@@ -124,11 +125,17 @@ const MapView = (function() {
                 title: school.name,
                 icon: {
                     path: google.maps.SymbolPath.CIRCLE,
-                    scale: 10,
+                    scale: 18,
                     fillColor: markerColor,
-                    fillOpacity: 0.8,
+                    fillOpacity: 0.9,
                     strokeColor: '#ffffff',
                     strokeWeight: 2
+                },
+                label: {
+                    text: utilizationText,
+                    color: '#ffffff',
+                    fontSize: '11px',
+                    fontWeight: 'bold'
                 }
             });
 
@@ -183,6 +190,7 @@ const MapView = (function() {
             const centerLng = totalLng / count;
             const utilization = SchoolData.calculateUtilization(totalEnrollment, totalCapacity);
             const markerColor = getMarkerColor(utilization);
+            const utilizationText = utilization !== null ? utilization + '%' : 'N/A';
 
             const marker = new google.maps.Marker({
                 position: { lat: centerLat, lng: centerLng },
@@ -190,14 +198,14 @@ const MapView = (function() {
                 title: cluster.name,
                 icon: {
                     path: google.maps.SymbolPath.CIRCLE,
-                    scale: 15,
+                    scale: 22,
                     fillColor: markerColor,
-                    fillOpacity: 0.8,
+                    fillOpacity: 0.9,
                     strokeColor: '#ffffff',
                     strokeWeight: 2
                 },
                 label: {
-                    text: cluster.schools.length.toString(),
+                    text: utilizationText,
                     color: '#ffffff',
                     fontSize: '12px',
                     fontWeight: 'bold'
@@ -224,6 +232,7 @@ const MapView = (function() {
     function showDistrictMarker(year) {
         const totals = SchoolData.getAggregatedData(year);
         const markerColor = getMarkerColor(totals.utilization);
+        const utilizationText = totals.utilization !== null ? totals.utilization + '%' : 'N/A';
 
         const marker = new google.maps.Marker({
             position: { lat: 33.7748, lng: -84.2963 },
@@ -231,16 +240,16 @@ const MapView = (function() {
             title: 'City Schools of Decatur - District Total',
             icon: {
                 path: google.maps.SymbolPath.CIRCLE,
-                scale: 20,
+                scale: 26,
                 fillColor: markerColor,
-                fillOpacity: 0.8,
+                fillOpacity: 0.9,
                 strokeColor: '#ffffff',
                 strokeWeight: 3
             },
             label: {
-                text: 'CSD',
+                text: utilizationText,
                 color: '#ffffff',
-                fontSize: '14px',
+                fontSize: '13px',
                 fontWeight: 'bold'
             }
         });
