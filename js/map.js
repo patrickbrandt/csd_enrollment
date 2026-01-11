@@ -10,8 +10,8 @@ const MapView = (function() {
     let currentZoom = 14;
 
     // Zoom thresholds
-    const ZOOM_INDIVIDUAL = 13;
-    const ZOOM_CLUSTER = 11;
+    const ZOOM_INDIVIDUAL = 14;
+    const ZOOM_CLUSTER = 12;
 
     // Initialize map when Google Maps API is loaded
     async function init() {
