@@ -7,11 +7,11 @@ An interactive web visualization showing enrollment and capacity data for City S
 ## Features
 
 - **Year Selector**: View enrollment data for any fiscal year from 2014-2026
-- **Table View**: Sortable table with school-by-school enrollment, capacity, and utilization
+- **Table View**: School-by-school enrollment, capacity, and utilization
 - **Interactive Map**: Google Maps integration with:
-  - Individual school markers (zoom level 13+)
-  - Geographic cluster markers (zoom levels 11-12)
-  - District-wide aggregation (zoom level 10 and below)
+  - Individual school markers (zoom level 14+)
+  - Geographic cluster markers (zoom levels 12-13)
+  - District-wide aggregation (zoom level 11 and below)
   - City of Decatur boundary overlay
   - Color-coded utilization indicators (green <85%, yellow 85-100%, red >100%)
 
